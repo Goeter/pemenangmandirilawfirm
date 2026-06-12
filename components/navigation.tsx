@@ -13,7 +13,7 @@ export default function Navigation() {
     <nav className="sticky top-0 z-50 border-b border-white/8 bg-black/88 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="#home" className="flex items-center gap-3" onClick={() => setIsOpen(false)}>
-          <Image src="/logo-pml-transparent.png" alt="PML logo" width={52} height={52} className="h-12 w-auto object-contain" />
+          <Image src="/logo-pml-transparent.png" alt="PML logo" width={52} height={52} className="h-12 w-auto object-contain brightness-0 invert drop-shadow-[0_0_12px_rgba(212,175,55,0.35)]" />
           <div>
             <p className="text-sm font-black uppercase tracking-[0.18em] text-white sm:text-base">Pemenang Mandiri</p>
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">Law Firm & Partners</p>

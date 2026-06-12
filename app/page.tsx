@@ -64,6 +64,15 @@ export default function HomePage() {
           </div>
 
           <div className="grid gap-4 self-center">
+            <div className="overflow-hidden rounded-[1.75rem] border border-[#D4AF37]/20 bg-[linear-gradient(135deg,#0f172a_0%,#1e293b_50%,#111827_100%)] p-8">
+              <div className="h-64 rounded-[1.25rem] bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.22),transparent_35%),linear-gradient(135deg,#1e293b_0%,#334155_50%,#111827_100%)] flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-[#D4AF37] text-sm font-black tracking-[0.3em] uppercase">Modern Legal Practice</div>
+                  <div className="mt-3 text-2xl font-black text-white">Professional Legal Representation</div>
+                  <div className="mt-2 text-white/70 text-sm">Premium law firm experience with modern legal solutions</div>
+                </div>
+              </div>
+            </div>
             <div className="gold-card rounded-[1.75rem] p-6 lg:ml-auto lg:max-w-[32rem]">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#D4AF37]/16 text-[#D4AF37]">
