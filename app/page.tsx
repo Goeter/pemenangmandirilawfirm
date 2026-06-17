@@ -1,4 +1,4 @@
-import { ArrowRight, BadgeCheck, BriefcaseBusiness, CircleCheck, Handshake, Landmark, MessageCircle, Scale, ShieldCheck } from 'lucide-react'
+import { ArrowRight, BriefcaseBusiness, CircleCheck, Landmark, MessageCircle } from 'lucide-react'
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
 import { lawFirmWhatsappHref } from '@/components/site-data'
@@ -18,12 +18,6 @@ const practiceAreas = [
     points: ['Contract disputes', 'Debt and collection matters', 'Property disputes', 'Civil litigation support'],
     icon: BriefcaseBusiness,
   },
-]
-
-const values = [
-  { title: 'Professional Integrity', icon: ShieldCheck },
-  { title: 'Client-Focused Approach', icon: Handshake },
-  { title: 'Practical Legal Solutions', icon: Scale },
 ]
 
 export default function HomePage() {
@@ -50,53 +44,8 @@ export default function HomePage() {
                 Contact Us
               </a>
             </div>
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {values.map((value) => {
-                const Icon = value.icon
-                return (
-                  <div key={value.title} className="gold-outline rounded-2xl bg-white/[0.02] p-4">
-                    <Icon className="h-5 w-5 text-[#D4AF37]" />
-                    <p className="mt-3 text-sm font-bold text-white/88">{value.title}</p>
-                  </div>
-                )
-              })}
             </div>
-          </div>
 
-          <div className="grid gap-4 self-center">
-            <div className="overflow-hidden rounded-[1.75rem] border border-[#D4AF37]/20 bg-[linear-gradient(135deg,#0f172a_0%,#1e293b_50%,#111827_100%)] p-8">
-              <div className="h-64 rounded-[1.25rem] bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.22),transparent_35%),linear-gradient(135deg,#1e293b_0%,#334155_50%,#111827_100%)] flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-[#D4AF37] text-sm font-black tracking-[0.3em] uppercase">Modern Legal Practice</div>
-                  <div className="mt-3 text-2xl font-black text-white">Professional Legal Representation</div>
-                  <div className="mt-2 text-white/70 text-sm">Premium law firm experience with modern legal solutions</div>
-                </div>
-              </div>
-            </div>
-            <div className="gold-card rounded-[1.75rem] p-6 lg:ml-auto lg:max-w-[32rem]">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#D4AF37]/16 text-[#D4AF37]">
-                  <Scale className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.22em] text-[#D4AF37]">Focused Support</p>
-                  <p className="mt-1 text-lg font-black text-white">Legal services tailored to practical needs</p>
-                </div>
-              </div>
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-white/8 bg-black/30 p-4">
-                  <p className="text-sm font-black text-white">Criminal Law</p>
-                  <p className="mt-2 text-sm leading-6 text-white/64">Careful guidance and representation through legal proceedings.</p>
-                </div>
-                <div className="rounded-2xl border border-white/8 bg-black/30 p-4">
-                  <p className="text-sm font-black text-white">Civil Law</p>
-                  <p className="mt-2 text-sm leading-6 text-white/64">Practical advice and legal action for disputes and obligations.</p>
-                </div>
-              </div>
-              <div className="mt-5 rounded-2xl border border-[#D4AF37]/16 bg-[#D4AF37]/7 p-4 text-sm leading-7 text-white/74">
-                <span className="font-bold text-[#F2DA7B]">Insurance claim-related matters:</span> we can act as a legal partner to support dispute resolution, review documents, and help clients move forward more confidently.
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -149,23 +98,6 @@ export default function HomePage() {
               Because of that, the firm can serve as a partner to help resolve legal issues linked to insurance claims—whether through consultation, document review, negotiation support, or further legal action when required.
             </p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {[
-              { title: 'Integrity', desc: 'Professional handling with ethical standards.', icon: BadgeCheck },
-              { title: 'Responsive', desc: 'Straightforward communication and client support.', icon: Handshake },
-              { title: 'Effective', desc: 'Practical solutions matched to the issue at hand.', icon: ShieldCheck },
-            ].map((item) => {
-              const Icon = item.icon
-              return (
-                <div key={item.title} className="gold-card rounded-[1.75rem] p-6 text-center">
-                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#D4AF37]/16 text-[#D4AF37]">
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="mt-4 text-lg font-black text-white">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-white/64">{item.desc}</p>
-                </div>
-              )
-            })}
           </div>
         </div>
       </section>
@@ -185,6 +117,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <a href="https://wa.me/6289638714065" target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-[999] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl animate-pulse"><MessageCircle className="h-7 w-7" /></a>
 
       <Footer />
     </main>
