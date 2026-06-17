@@ -9,9 +9,4 @@ export const lawFirmWhatsappHref = `https://wa.me/${lawFirmConfig.whatsappNumber
   'Hello Pemenang Mandiri Law Firm & Partners, I would like to discuss legal services.',
 )}`
 
-export const lawFirmNavigation = [
-  { label: 'Home', href: '#home' },
-  { label: 'Practice Areas', href: '#practice-areas' },
-  { label: 'About Us', href: '#about-us' },
-  { label: 'Contact', href: '#contact' },
-] as const
+export const lawFirmNavigation = [] as const
