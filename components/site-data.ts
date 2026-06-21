@@ -9,4 +9,17 @@ export const lawFirmWhatsappHref = `https://wa.me/${lawFirmConfig.whatsappNumber
   'Hello Pemenang Mandiri Law Firm & Partners, I would like to discuss legal services.',
 )}`
 
-export const lawFirmNavigation = [] as const
+export const heroSlides = [
+  {
+    title: 'Pendampingan Hukum yang Tepat dan Strategis',
+    description:
+      'Pemenang Mandiri Law Firm & Partners siap mendampingi kebutuhan hukum perdata, pidana, dan sengketa yang memerlukan pendekatan profesional serta terukur.',
+    image: '/Foto Banner Law Firm Mandiri Pemenang 1.png',
+  },
+  {
+    title: 'Solusi Hukum Profesional untuk Perdata dan Pidana',
+    description:
+      'Kami membantu penanganan perkara, telaah dokumen, konsultasi hukum, dan langkah strategis lanjutan untuk individu maupun bisnis.',
+    image: '/Foto Banner Law Firm Mandiri Pemenang 1.png',
+  },
+] as const
