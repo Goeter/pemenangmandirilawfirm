@@ -58,5 +58,3 @@ body {
 .text-muted {
   color: rgba(245, 239, 225, 0.72);
 }
-
-.hero-slide{background-size:cover;background-position:center;transition:opacity .8s ease-in-out;}
