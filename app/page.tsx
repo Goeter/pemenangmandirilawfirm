@@ -1,127 +1,174 @@
+'use client'
+
+import { useCallback, useEffect, useState } from 'react'
+import Image from 'next/image'
 import {
   ArrowRight,
   BriefcaseBusiness,
   CircleCheck,
   Landmark,
-  MessageCircle,
 } from 'lucide-react'
 import Navigation from '@/components/navigation'
 import Footer from '@/components/footer'
-import { lawFirmWhatsappHref } from '@/components/site-data'
+import { lawFirmConfig, buildWhatsappHref } from '@/components/site-data'
+import { useLanguage } from '@/components/language-context'
 
-const practiceAreas = [
-  {
-    title: 'Criminal Law (Pidana)',
-    description:
-      'Legal representation and strategic guidance for investigation, prosecution, and court proceedings with a calm and professional approach.',
-    points: [
-      'Criminal defense',
-      'Legal consultation',
-      'Case assessment',
-      'Court representation',
-    ],
-    icon: Landmark,
-  },
-  {
-    title: 'Civil Law (Perdata)',
-    description:
-      'Support for disputes, contract matters, debt collection, and broader civil issues with practical and effective legal direction.',
-    points: [
-      'Contract disputes',
-      'Debt and collection matters',
-      'Property disputes',
-      'Civil litigation support',
-    ],
-    icon: BriefcaseBusiness,
-  },
-]
+/* ── WhatsApp SVG Icon ── */
+function WhatsAppIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M16.004 0h-.008C7.174 0 0 7.176 0 16.004c0 3.502 1.128 6.744 3.046 9.378L1.054 31.29l6.118-1.958A15.9 15.9 0 0 0 16.004 32C24.826 32 32 24.826 32 16.004S24.826 0 16.004 0Zm9.334 22.614c-.39 1.1-1.932 2.014-3.172 2.28-.846.18-1.952.324-5.674-1.22-4.762-1.976-7.822-6.81-8.06-7.124-.23-.314-1.924-2.564-1.924-4.89 0-2.326 1.218-3.468 1.65-3.942.39-.428 1.026-.626 1.636-.626.198 0 .376.01.536.018.432.018.648.044.934.724.354.844 1.218 2.972 1.326 3.188.108.216.216.506.072.806-.136.306-.252.486-.468.746-.216.26-.444.58-.638.778-.216.234-.44.486-.19.918.252.432 1.118 1.844 2.402 2.988 1.65 1.474 3.04 1.932 3.472 2.148.432.216.684.18.936-.108.26-.288 1.098-1.278 1.39-1.716.288-.432.58-.36.974-.216.396.144 2.518 1.188 2.95 1.404.432.216.72.324.828.504.108.18.108 1.042-.282 2.134Z" />
+    </svg>
+  )
+}
+
+/* ── Practice area icon mapping ── */
+const areaIcons = [Landmark, BriefcaseBusiness]
 
 export default function HomePage() {
+  const { t } = useLanguage()
+
+  /* ── Hero slider state ── */
+  const [activeSlide, setActiveSlide] = useState(0)
+  const slideCount = lawFirmConfig.heroImages.length
+
+  const nextSlide = useCallback(() => {
+    setActiveSlide((prev) => (prev + 1) % slideCount)
+  }, [slideCount])
+
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 6000)
+    return () => clearInterval(interval)
+  }, [nextSlide])
+
+  const waHref = buildWhatsappHref(t.waMessage)
+
   return (
     <main className="min-h-screen bg-transparent text-white">
       <Navigation />
 
-      {/* HERO */}
+      {/* ═══════════════════════════════════════════
+          HERO — Full-width auto-sliding banner
+      ═══════════════════════════════════════════ */}
       <section
         id="home"
-        className="px-4 pb-10 pt-8 sm:px-6 lg:px-8 lg:pb-16 lg:pt-10"
+        className="relative isolate min-h-[calc(100vh-4rem)] overflow-hidden bg-[#0f172a] px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-20"
       >
-        <div className="hero-panel mx-auto grid max-w-7xl gap-10 overflow-hidden rounded-[2rem] border border-white/8 px-6 py-10 shadow-2xl shadow-black/30 sm:px-8 lg:px-10 lg:py-14">
-          <div className="max-w-3xl">
-            <p className="section-kicker">Trusted Legal Services</p>
+        {/* Background gradient base */}
+        <div className="absolute inset-0 -z-30 bg-[linear-gradient(135deg,#0f172a_0%,#1e293b_54%,#111827_100%)]" />
 
-            <h1 className="mt-5 text-balance text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Professional legal support with a calm, modern, and reliable
-              approach.
-            </h1>
+        {/* Sliding background images */}
+        <div className="absolute right-0 top-0 -z-20 h-full w-full lg:w-[56%]">
+          {lawFirmConfig.heroImages.map((src, i) => (
+            <Image
+              key={src}
+              src={src}
+              alt={t.heroSlides[i]?.kicker ?? 'Hero background'}
+              fill
+              className={`object-cover object-center transition-opacity duration-700 ${
+                activeSlide === i
+                  ? 'opacity-60 lg:opacity-95'
+                  : 'opacity-0'
+              }`}
+              sizes="(max-width: 1024px) 100vw, 56vw"
+              priority={i === 0}
+            />
+          ))}
+        </div>
 
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-white/70 sm:text-[15px] sm:leading-8">
-              Pemenang Mandiri Law Firm & Partners assists individuals and
-              businesses in criminal and civil matters, while also serving as a
-              legal partner for resolving insurance claim-related issues.
-            </p>
+        {/* Left gradient overlay for text readability */}
+        <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(15,23,42,0.98)_0%,rgba(15,23,42,0.94)_44%,rgba(15,23,42,0.7)_68%,rgba(15,23,42,0.28)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 -z-10 h-36 bg-gradient-to-t from-[#0f172a] to-transparent" />
 
-            <div className="mt-7 flex flex-wrap gap-3">
+        {/* Content grid */}
+        <div className="mx-auto grid min-h-[calc(100vh-10rem)] max-w-7xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="max-w-3xl space-y-4 sm:space-y-5" key={activeSlide}>
+            {/* Kicker badge */}
+            <div className="slide-fade-in inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-semibold tracking-[0.02em] text-white/82 shadow-lg shadow-black/10 backdrop-blur sm:px-4 sm:py-2 sm:text-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-[#D4AF37]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+              {t.heroSlides[activeSlide].kicker}
+            </div>
+
+            {/* Title + description */}
+            <div className="space-y-3 sm:space-y-3.5">
+              <h1 className="slide-fade-in max-w-3xl text-balance text-3xl font-black leading-[1.1] tracking-tight sm:text-4xl sm:leading-[1.08] lg:text-5xl" style={{ animationDelay: '100ms' }}>
+                {t.heroSlides[activeSlide].title}
+              </h1>
+              <p className="slide-fade-in max-w-2xl text-pretty text-sm leading-7 text-white/76 sm:text-[15px] sm:leading-8 lg:text-base" style={{ animationDelay: '200ms' }}>
+                {t.heroSlides[activeSlide].description}
+              </p>
+            </div>
+
+            {/* CTAs */}
+            <div className="slide-fade-in grid max-w-md grid-cols-2 gap-3 pt-1 sm:flex sm:max-w-none sm:flex-row" style={{ animationDelay: '300ms' }}>
               <a
                 href="#practice-areas"
-                className="inline-flex items-center gap-2 rounded-full bg-[#D4AF37] px-5 py-3 text-sm font-black text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E2C45C]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-4 py-3 text-sm font-bold text-[#07111F] shadow-lg shadow-[#D4AF37]/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#E0C878] sm:px-5"
               >
-                View Practice Areas
-                <ArrowRight className="h-4 w-4" />
+                {t.heroCta1}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
-
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10"
+                className="inline-flex items-center justify-center rounded-full border border-white/22 bg-white/8 px-4 py-3 text-sm font-bold text-white backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/14 sm:px-5"
               >
-                Contact Us
+                {t.heroCta2}
               </a>
             </div>
+
+            {/* Slide indicators */}
+            <div className="flex gap-2 pt-4">
+              {lawFirmConfig.heroImages.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    activeSlide === i
+                      ? 'w-8 bg-[#D4AF37]'
+                      : 'w-3 bg-white/25 hover:bg-white/40'
+                  }`}
+                  onClick={() => setActiveSlide(i)}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
+
+          {/* Right spacer for image visibility */}
+          <div className="hidden lg:block" />
         </div>
       </section>
 
-      {/* PRACTICE AREAS */}
-      <section
-        id="practice-areas"
-        className="px-4 py-14 sm:px-6 lg:px-8 lg:py-16"
-      >
+      {/* ═══════════════════════════════════════════
+          PRACTICE AREAS
+      ═══════════════════════════════════════════ */}
+      <section id="practice-areas" className="px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 text-center">
-            <p className="section-kicker justify-center">Practice Areas</p>
-
+            <p className="section-kicker justify-center">{t.practiceKicker}</p>
             <h2 className="mt-4 text-3xl font-black tracking-tight text-white sm:text-4xl">
-              Focused legal services for key matters.
+              {t.practiceHeading}
             </h2>
-
             <p className="mx-auto mt-4 max-w-3xl text-sm leading-7 text-white/64 sm:text-[15px]">
-              Our one-page profile keeps the experience simple while clearly
-              presenting the main legal areas handled by the firm.
+              {t.practiceSubheading}
             </p>
           </div>
 
           <div className="grid gap-5 lg:grid-cols-2">
-            {practiceAreas.map((area) => {
-              const Icon = area.icon
-
+            {t.practiceAreas.map((area, idx) => {
+              const Icon = areaIcons[idx] ?? Landmark
               return (
-                <article
-                  key={area.title}
-                  className="gold-card rounded-[1.75rem] p-6 sm:p-7"
-                >
+                <article key={area.title} className="gold-card rounded-[1.75rem] p-6 sm:p-7">
                   <div className="flex items-start gap-4">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#D4AF37]/16 text-[#D4AF37]">
-                      <Icon className="h-6 w-6" />
+                      <Icon className="h-6 w-6" aria-hidden="true" />
                     </div>
-
                     <div>
-                      <h3 className="text-2xl font-black text-white">
-                        {area.title}
-                      </h3>
-
-                      <p className="mt-3 text-sm leading-7 text-white/66">
-                        {area.description}
-                      </p>
+                      <h3 className="text-2xl font-black text-white">{area.title}</h3>
+                      <p className="mt-3 text-sm leading-7 text-white/66">{area.description}</p>
                     </div>
                   </div>
 
@@ -131,7 +178,7 @@ export default function HomePage() {
                         key={point}
                         className="flex items-start gap-3 rounded-2xl border border-white/8 bg-black/26 px-4 py-3 text-sm text-white/74"
                       >
-                        <CircleCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#D4AF37]" />
+                        <CircleCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#D4AF37]" aria-hidden="true" />
                         <span>{point}</span>
                       </div>
                     ))}
@@ -143,75 +190,59 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ABOUT */}
-      <section
-        id="about-us"
-        className="px-4 py-14 sm:px-6 lg:px-8 lg:py-16"
-      >
+      {/* ═══════════════════════════════════════════
+          ABOUT US
+      ═══════════════════════════════════════════ */}
+      <section id="about-us" className="px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
         <div className="mx-auto max-w-7xl">
           <div className="gold-card rounded-[1.75rem] p-6 sm:p-7">
-            <p className="section-kicker">About Us</p>
-
+            <p className="section-kicker">{t.aboutKicker}</p>
             <h2 className="mt-4 text-3xl font-black tracking-tight text-white sm:text-4xl">
-              A legal partner for insurance claim-related issues.
+              {t.aboutHeading}
             </h2>
-
-            <p className="mt-5 text-sm leading-7 text-white/68 sm:text-[15px]">
-              Pemenang Mandiri Law Firm & Partners is prepared to support
-              clients with practical legal insight, careful case review, and
-              coordinated follow-up. We understand that claim disputes can
-              involve both legal interpretation and business sensitivity.
-            </p>
-
-            <p className="mt-4 text-sm leading-7 text-white/68 sm:text-[15px]">
-              Because of that, the firm can serve as a partner to help resolve
-              legal issues linked to insurance claims—whether through
-              consultation, document review, negotiation support, or further
-              legal action when required.
-            </p>
+            <p className="mt-5 text-sm leading-7 text-white/68 sm:text-[15px]">{t.aboutP1}</p>
+            <p className="mt-4 text-sm leading-7 text-white/68 sm:text-[15px]">{t.aboutP2}</p>
           </div>
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section
-        id="contact"
-        className="px-4 pb-16 pt-12 sm:px-6 lg:px-8 lg:pb-20"
-      >
+      {/* ═══════════════════════════════════════════
+          CONTACT
+      ═══════════════════════════════════════════ */}
+      <section id="contact" className="px-4 pb-16 pt-12 sm:px-6 lg:px-8 lg:pb-20">
         <div className="mx-auto max-w-4xl rounded-[2rem] border border-[#D4AF37]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.01)_100%)] px-6 py-10 text-center shadow-2xl shadow-black/20 sm:px-8 sm:py-12">
-          <p className="section-kicker justify-center">Contact</p>
-
+          <p className="section-kicker justify-center">{t.contactKicker}</p>
           <h2 className="mt-4 text-balance text-3xl font-black tracking-tight text-white sm:text-4xl">
-            Let’s discuss your legal needs.
+            {t.contactHeading}
           </h2>
-
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/66 sm:text-[15px]">
-            Reach out for an initial discussion regarding criminal law, civil
-            law, or legal issues related to insurance claims.
+            {t.contactDescription}
           </p>
-
           <div className="mt-8 flex justify-center">
             <a
-              href={lawFirmWhatsappHref}
+              href={waHref}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-bold text-[#08110d] shadow-lg shadow-[#25D366]/18 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#3CE076]"
             >
-              <MessageCircle className="h-4 w-4" />
-              Chat on WhatsApp
+              <WhatsAppIcon className="h-4 w-4" />
+              {t.contactCta}
             </a>
           </div>
         </div>
       </section>
 
-      {/* STICKY WHATSAPP */}
+      {/* ═══════════════════════════════════════════
+          FLOATING WHATSAPP — Animated & alive
+      ═══════════════════════════════════════════ */}
       <a
-        href="https://wa.me/6289638714065"
+        href={waHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-[999] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl transition hover:scale-110"
+        className="wa-float wa-bounce fixed bottom-6 right-6 z-[999] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl transition-all duration-300"
+        aria-label={t.waLabel}
       >
-        <MessageCircle className="h-7 w-7" />
+        <WhatsAppIcon className="h-7 w-7" />
       </a>
 
       <Footer />
