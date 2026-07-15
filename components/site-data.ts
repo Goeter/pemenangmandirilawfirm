@@ -8,10 +8,9 @@ export const lawFirmConfig = {
     '/photos/hero-consultation.png',
     '/photos/hero-legal-documents.png',
   ],
+  contactPortrait: '/photos/contact-portrait.png',
 } as const
 
 export function buildWhatsappHref(message: string): string {
   return `https://wa.me/${lawFirmConfig.whatsappNumber}?text=${encodeURIComponent(message)}`
 }
-
-export const lawFirmNavigation = [] as const

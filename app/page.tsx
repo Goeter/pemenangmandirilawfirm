@@ -210,24 +210,41 @@ export default function HomePage() {
           CONTACT
       ═══════════════════════════════════════════ */}
       <section id="contact" className="px-4 pb-16 pt-12 sm:px-6 lg:px-8 lg:pb-20">
-        <div className="mx-auto max-w-4xl rounded-[2rem] border border-[#D4AF37]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.01)_100%)] px-6 py-10 text-center shadow-2xl shadow-black/20 sm:px-8 sm:py-12">
-          <p className="section-kicker justify-center">{t.contactKicker}</p>
-          <h2 className="mt-4 text-balance text-3xl font-black tracking-tight text-white sm:text-4xl">
-            {t.contactHeading}
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/66 sm:text-[15px]">
-            {t.contactDescription}
-          </p>
-          <div className="mt-8 flex justify-center">
-            <a
-              href={waHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-bold text-[#08110d] shadow-lg shadow-[#25D366]/18 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#3CE076]"
-            >
-              <WhatsAppIcon className="h-4 w-4" />
-              {t.contactCta}
-            </a>
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-[2rem] border border-[#D4AF37]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.02)_0%,rgba(255,255,255,0.01)_100%)] shadow-2xl shadow-black/20">
+          <div className="grid lg:grid-cols-[1fr_0.75fr]">
+            {/* Left — Text content */}
+            <div className="flex flex-col justify-center px-6 py-10 sm:px-8 sm:py-12">
+              <p className="section-kicker">{t.contactKicker}</p>
+              <h2 className="mt-4 text-balance text-3xl font-black tracking-tight text-white sm:text-4xl">
+                {t.contactHeading}
+              </h2>
+              <p className="mt-4 max-w-lg text-sm leading-7 text-white/66 sm:text-[15px]">
+                {t.contactDescription}
+              </p>
+              <div className="mt-8">
+                <a
+                  href={waHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-3 text-sm font-bold text-[#08110d] shadow-lg shadow-[#25D366]/18 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#3CE076]"
+                >
+                  <WhatsAppIcon className="h-4 w-4" />
+                  {t.contactCta}
+                </a>
+              </div>
+            </div>
+
+            {/* Right — Portrait photo */}
+            <div className="relative hidden min-h-[320px] lg:block">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/60 to-transparent z-10" />
+              <Image
+                src={lawFirmConfig.contactPortrait}
+                alt="Pemenang Mandiri Law Firm — Legal Consultant"
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 1024px) 0px, 380px"
+              />
+            </div>
           </div>
         </div>
       </section>
